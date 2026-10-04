@@ -1,1 +1,742 @@
+HTML КОД 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Крипто Гараж — Симулятор</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<div id="particles"></div>
+
+<!-- AUTH -->
+<section class="auth-screen" id="authScreen">
+  <div class="auth-card">
+
+    <div class="logo-icon">₿</div>
+
+    <h1>КРИПТО ГАРАЖ</h1>
+    <p class="auth-subtitle">ОФЛАЙН-СИМУЛЯЦИЯ МАЙНИНГ-ГАРАЖА</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="loginTab">ВОЙТИ</button>
+      <button class="auth-tab" id="registerTab">РЕГИСТРАЦИЯ</button>
+    </div>
+
+    <div id="loginForm">
+      <label>Имя пользователя</label>
+      <input id="loginUsername" type="text" maxlength="24" autocomplete="username">
+
+      <label>Пароль</label>
+      <input id="loginPassword" type="password" maxlength="64" autocomplete="current-password">
+
+      <button class="btn primary auth-submit" id="loginBtn">
+        ВОЙТИ В ГАРАЖ
+      </button>
+    </div>
+
+    <div id="registerForm" class="hidden">
+      <label>Имя пользователя</label>
+      <input id="registerUsername" type="text" maxlength="24" autocomplete="username">
+
+      <label>Пароль</label>
+      <input id="registerPassword" type="password" maxlength="64" autocomplete="new-password">
+
+      <label>Повторите пароль</label>
+      <input id="registerPasswordConfirm" type="password" maxlength="64" autocomplete="new-password">
+
+      <button class="btn primary auth-submit" id="registerBtn">
+        СОЗДАТЬ АККАУНТ
+      </button>
+    </div>
+
+    <div class="auth-error hidden" id="authError"></div>
+
+    <div class="auth-note">
+      100% вымышленная офлайн-игра<br>
+      Все аккаунты и сохранения хранятся только в этом браузере
+    </div>
+
+  </div>
+</section>
+
+<!-- LANDING -->
+<section class="landing hidden" id="landing">
+  <div class="landing-card">
+    <div class="logo-icon">₿</div>
+    <h1>КРИПТО ГАРАЖ</h1>
+    <p>СТРОЙ. ДОБЫВАЙ. УЛУЧШАЙ.</p>
+
+    <div class="welcome-user">
+      АККАУНТ: <b id="landingUsername">—</b>
+    </div>
+
+    <button class="enter" id="enterBtn">
+      ВОЙТИ В ГАРАЖ
+    </button>
+
+    <div style="margin-top:22px;color:#58647a;font-size:11px">
+      100% вымышленная офлайн-симуляция • только игровые BTC
+    </div>
+  </div>
+</section>
+
+<!-- GAME -->
+<main class="app hidden" id="app">
+
+<header class="topbar">
+
+  <div class="brand">
+    КРИПТО <span>ГАРАЖ</span>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>Игровые BTC</small>
+      <strong id="balance">0.000000</strong>
+    </div>
+
+    <div class="stat">
+      <small>BTC / мин</small>
+      <strong id="btcRate">0.000000</strong>
+    </div>
+
+    <div class="stat">
+      <small>Гараж</small>
+      <strong id="garageLevel">УР. 1</strong>
+    </div>
+
+    <div class="stat">
+      <small>Видеокарты</small>
+      <strong id="gpuCount">0 / 4</strong>
+    </div>
+
+    <div class="stat">
+      <small>Питание</small>
+      <strong id="power">0 Вт</strong>
+    </div>
+
+    <div class="stat">
+      <small>Кадры/с</small>
+      <strong id="fps">144</strong>
+    </div>
+
+  </div>
+
+  <div class="account-mini">
+    <span id="currentUsername">—</span>
+  </div>
+
+  <button class="btn" id="muteBtn" title="Звук">🔊</button>
+
+</header>
+
+<nav class="nav">
+
+  <button class="active" data-page="dashboard">
+    Главная
+  </button>
+
+  <button data-page="inventory">
+    Видеокарты
+  </button>
+
+  <button data-page="upgrades">
+    Улучшения гаража
+  </button>
+
+  <button data-page="lucky">
+    Колесо удачи
+  </button>
+
+  <button data-page="achievements">
+    Достижения
+  </button>
+
+  <button data-page="prestige">
+    Престиж
+  </button>
+
+  <button data-page="settings">
+    Настройки
+  </button>
+
+</nav>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+
+  <div class="grid-main">
+
+    <div class="panel">
+
+      <div class="panel-title">
+        <h2>МОЙ ГАРАЖ</h2>
+        <span class="badge" id="garageVisualLevel">
+          УР. 1
+        </span>
+      </div>
+
+      <div class="garage" id="garageVisual">
+
+        <span class="garage-label">
+          ЧАСТНАЯ МАЙНИНГ-ЗОНА // ОФЛАЙН-СИМУЛЯЦИЯ
+        </span>
+
+        <div class="fan" id="garageFan"></div>
+        <div class="cable"></div>
+
+        <div class="rig rig1">
+          <div class="rig-top">
+            <i class="led"></i>
+            СТАНЦИЯ-01
+          </div>
+          <div class="gpu-stack" data-rig="0"></div>
+        </div>
+
+        <div class="rig rig2">
+          <div class="rig-top">
+            <i class="led"></i>
+            СТАНЦИЯ-02
+          </div>
+          <div class="gpu-stack" data-rig="1"></div>
+        </div>
+
+        <div class="rig rig3">
+          <div class="rig-top">
+            <i class="led"></i>
+            СТАНЦИЯ-03
+          </div>
+          <div class="gpu-stack" data-rig="2"></div>
+        </div>
+
+        <div class="rig rig4">
+          <div class="rig-top">
+            <i class="led"></i>
+            СТАНЦИЯ-04
+          </div>
+          <div class="gpu-stack" data-rig="3"></div>
+        </div>
+
+        <div class="shelf"></div>
+        <div class="garage-floor"></div>
+
+      </div>
+
+      <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px">
+        <span class="muted">Доступные станции</span>
+        <b id="rigCount">1 / 1</b>
+      </div>
+
+    </div>
+
+    <!-- MINING -->
+    <div class="panel">
+
+      <div class="panel-title">
+        <h2>МАЙНИНГ</h2>
+        <span class="badge offline" id="miningStatus">
+          ● ОФЛАЙН
+        </span>
+      </div>
+
+      <div class="operation-status">
+
+        <div class="big-value">
+          <small>Хешрейт</small>
+          <strong id="hashrate">0 МХ/с</strong>
+        </div>
+
+        <div class="big-value">
+          <small>Температура</small>
+          <strong id="temperature">25°C</strong>
+        </div>
+
+        <div class="big-value">
+          <small>Эффективность</small>
+          <strong id="efficiency">100%</strong>
+        </div>
+
+        <div class="big-value">
+          <small>Активные видеокарты</small>
+          <strong id="activeGPUs">0</strong>
+        </div>
+
+      </div>
+
+      <div class="controls">
+
+        <button class="btn primary" id="startMining">
+          НАЧАТЬ МАЙНИНГ
+        </button>
+
+        <button class="btn danger" id="stopMining">
+          ОСТАНОВИТЬ МАЙНИНГ
+        </button>
+
+      </div>
+
+      <div class="metric">
+        <div class="metric-head">
+          <span>Эффективность майнинга</span>
+          <b id="efficiencyText">100%</b>
+        </div>
+
+        <div class="progress">
+          <i id="efficiencyBar"></i>
+        </div>
+      </div>
+
+      <div class="metric">
+
+        <div class="metric-head">
+          <span>Вместимость гаража</span>
+          <b id="capacityText">0 / 4</b>
+        </div>
+
+        <div class="progress">
+          <i id="capacityBar"></i>
+        </div>
+
+      </div>
+
+      <div class="panel-title" style="margin-top:18px;margin-bottom:7px">
+        <h2>ХЕШРЕЙТ / ВРЕМЯ</h2>
+        <span class="badge">ОНЛАЙН</span>
+      </div>
+
+      <canvas id="hashChart"></canvas>
+
+      <div class="panel-title" style="margin-top:14px;margin-bottom:7px">
+        <h2>ДОХОД / ВРЕМЯ</h2>
+      </div>
+
+      <canvas id="earnChart"></canvas>
+
+      <div class="panel-title" style="margin-top:14px;margin-bottom:7px">
+        <h2>ЭЛЕКТРОЭНЕРГИЯ</h2>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;font-size:12px">
+        <span class="muted">
+          Вымышленное потребление
+        </span>
+
+        <b id="electricCost">
+          0.000000 игровых BTC/мин
+        </b>
+      </div>
+
+    </div>
+
+    <!-- MARKET -->
+    <div class="panel">
+
+      <div class="panel-title">
+        <h2>РЫНОК ВИДЕОКАРТ</h2>
+
+        <span class="badge">
+          ВЫМЫШЛЕННОЕ ОБОРУДОВАНИЕ
+        </span>
+      </div>
+
+      <div class="market-list" id="marketList"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- INVENTORY -->
+<section class="page" id="inventory">
+
+  <div class="panel">
+
+    <div class="panel-title">
+      <h2>ВИДЕОКАРТЫ</h2>
+
+      <span class="badge" id="inventoryCount">
+        0 видеокарт
+      </span>
+    </div>
+
+    <div class="inventory-grid" id="inventoryGrid"></div>
+
+  </div>
+
+</section>
+
+<!-- UPGRADES -->
+<section class="page" id="upgrades">
+
+  <div class="panel">
+
+    <div class="panel-title">
+      <h2>СИСТЕМЫ ГАРАЖА</h2>
+
+      <span class="badge">
+        ТЕРМИНАЛ УЛУЧШЕНИЙ
+      </span>
+    </div>
+
+    <div class="section-grid" id="upgradeGrid"></div>
+
+  </div>
+
+</section>
+
+<!-- LUCKY -->
+<section class="page" id="lucky">
+
+  <div class="panel roulette-wrap">
+
+    <div class="panel-title">
+      <h2>КОЛЕСО УДАЧИ</h2>
+
+      <span class="badge">
+        АРКАДНАЯ МИНИ-ИГРА
+      </span>
+    </div>
+
+    <div class="warning">
+      ТОЛЬКО ИГРОВЫЕ КРЕДИТЫ — БЕЗ РЕАЛЬНЫХ ДЕНЕГ
+    </div>
+
+    <div class="slots">
+
+      <div class="slot" id="slot0">7</div>
+      <div class="slot" id="slot1">7</div>
+      <div class="slot" id="slot2">7</div>
+
+    </div>
+
+    <div class="bet-area">
+
+      <input
+        id="betInput"
+        type="number"
+        min="0.01"
+        step="0.01"
+        value="0.10"
+        aria-label="Размер ставки"
+      >
+
+      <button class="btn" data-bet="0.01">0.01</button>
+      <button class="btn" data-bet="0.05">0.05</button>
+      <button class="btn" data-bet="0.10">0.10</button>
+      <button class="btn" data-bet="0.50">0.50</button>
+      <button class="btn" id="maxBet">МАКС.</button>
+
+      <button class="btn primary" id="spinBtn">
+        КРУТИТЬ
+      </button>
+
+    </div>
+
+    <div class="roulette-result" id="rouletteResult">
+      Выберите ставку в игровых BTC и запустите колесо.
+    </div>
+
+    <div class="roulette-stats">
+
+      <div class="rstat">
+        <small>ИГР</small>
+        <b id="spins">0</b>
+      </div>
+
+      <div class="rstat">
+        <small>ПОБЕД</small>
+        <b id="wins">0</b>
+      </div>
+
+      <div class="rstat">
+        <small>ПОРАЖЕНИЙ</small>
+        <b id="losses">0</b>
+      </div>
+
+      <div class="rstat">
+        <small>МАКС. ВЫИГРЫШ</small>
+        <b id="biggestWin">0</b>
+      </div>
+
+      <div class="rstat">
+        <small>ПОТРАЧЕНО</small>
+        <b id="totalSpent">0</b>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section class="page" id="achievements">
+
+  <div class="panel">
+
+    <div class="panel-title">
+
+      <h2>ДОСТИЖЕНИЯ</h2>
+
+      <span class="badge" id="achievementCount">
+        0 / 8
+      </span>
+
+    </div>
+
+    <div class="achievements" id="achievementGrid"></div>
+
+  </div>
+
+</section>
+
+<!-- PRESTIGE -->
+<section class="page" id="prestige">
+
+  <div class="panel prestige-box">
+
+    <div class="badge">
+      СИСТЕМА ПОЗДНЕЙ ИГРЫ
+    </div>
+
+    <h1>ПРЕСТИЖ</h1>
+
+    <p class="muted">
+      Сбросьте гараж и оборудование, чтобы получить
+      постоянный бонус к эффективности майнинга.
+    </p>
+
+    <div class="prestige-points" id="prestigePoints">
+      0
+    </div>
+
+    <p>Уровень престижа</p>
+
+    <p class="muted">
+      Текущий постоянный бонус:
+      <b id="prestigeBonus">0%</b>
+    </p>
+
+    <button class="btn primary" id="prestigeBtn">
+      АКТИВИРОВАТЬ ПРЕСТИЖ
+    </button>
+
+    <div style="margin-top:20px;font-size:11px;color:#59657b">
+      Требуется 5-й уровень гаража и минимум 10 видеокарт.
+    </div>
+
+  </div>
+
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+
+  <div class="panel">
+
+    <div class="panel-title">
+      <h2>НАСТРОЙКИ</h2>
+    </div>
+
+    <div class="settings-list">
+
+      <div class="setting">
+        <span>Звук</span>
+
+        <button
+          class="switch on"
+          id="soundToggle"
+          aria-label="Переключить звук"
+        >
+          <i></i>
+        </button>
+      </div>
+
+      <div class="setting">
+        <span>Анимации</span>
+
+        <button
+          class="switch on"
+          id="animationToggle"
+          aria-label="Переключить анимации"
+        >
+          <i></i>
+        </button>
+      </div>
+
+      <div class="setting">
+        <span>Частицы</span>
+
+        <button
+          class="switch on"
+          id="particleToggle"
+          aria-label="Переключить частицы"
+        >
+          <i></i>
+        </button>
+      </div>
+
+      <div class="setting">
+        <span>Уменьшенные эффекты</span>
+
+        <button
+          class="switch"
+          id="reducedToggle"
+          aria-label="Переключить уменьшенные эффекты"
+        >
+          <i></i>
+        </button>
+      </div>
+
+      <div class="setting">
+        <span>Сохранение и загрузка</span>
+
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+
+          <button class="btn" id="saveBtn">
+            СОХРАНИТЬ ИГРУ
+          </button>
+
+          <button class="btn" id="loadBtn">
+            ЗАГРУЗИТЬ ИГРУ
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="setting">
+        <span>Аккаунт</span>
+
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+
+          <span class="account-setting-name" id="settingsUsername">
+            —
+          </span>
+
+          <button class="btn danger" id="logoutBtn">
+            ВЫЙТИ ИЗ АККАУНТА
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="setting">
+
+        <span>Опасная зона</span>
+
+        <button class="btn danger" id="resetBtn">
+          СБРОСИТЬ СОХРАНЕНИЕ
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- NOTIFICATIONS -->
+<div id="notifications"></div>
+
+<!-- ACHIEVEMENT -->
+<div id="achievementPopup">
+
+  <b style="color:var(--green)">
+    🏆 ДОСТИЖЕНИЕ ПОЛУЧЕНО
+  </b>
+
+  <div
+    id="achievementPopupText"
+    style="margin-top:4px"
+  ></div>
+
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-backdrop hidden" id="resetModal">
+
+  <div class="modal">
+
+    <h2>Сбросить гараж?</h2>
+
+    <p class="muted">
+      Это полностью удалит сохранение текущего аккаунта
+      и вернёт его симулятор в начальное состояние.
+    </p>
+
+    <div class="modal-actions">
+
+      <button class="btn" id="cancelReset">
+        ОТМЕНА
+      </button>
+
+      <button class="btn danger" id="confirmReset">
+        СБРОСИТЬ ВСЁ
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TUTORIAL -->
+<div class="modal-backdrop hidden" id="tutorialModal">
+
+  <div class="tutorial-card">
+
+    <div class="tutorial-progress">
+      <span id="tutorialStepText">
+        ШАГ 1 ИЗ 8
+      </span>
+
+      <div class="progress">
+        <i id="tutorialProgressBar"></i>
+      </div>
+    </div>
+
+    <div class="tutorial-icon" id="tutorialIcon">
+      ₿
+    </div>
+
+    <h2 id="tutorialTitle">
+      Добро пожаловать
+    </h2>
+
+    <p id="tutorialText" class="muted"></p>
+
+    <div class="tutorial-actions">
+
+      <button class="btn" id="tutorialBack">
+        НАЗАД
+      </button>
+
+      <button class="btn" id="tutorialSkip">
+        ПРОПУСТИТЬ
+      </button>
+
+      <button class="btn primary" id="tutorialNext">
+        ДАЛЕЕ
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
