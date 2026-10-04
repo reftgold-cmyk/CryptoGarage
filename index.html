@@ -160,6 +160,18 @@
     Престиж
   </button>
 
+  <button data-page="profile">
+    Профиль
+  </button>
+
+  <button data-page="exchange">
+    Обмен BTC ↔ RUB
+  </button>
+
+  <button data-page="upgrader">
+    Апгрейд BTC
+  </button>
+
   <button data-page="settings">
     Настройки
   </button>
@@ -359,9 +371,8 @@
     <div class="panel-title">
       <h2>ВИДЕОКАРТЫ</h2>
 
-      <span class="badge" id="inventoryCount">
-        0 видеокарт
-      </span>
+      <span class="badge" id="inventoryCount">0 видеокарт</span>
+      <span class="badge" id="garageCapacityBadge">Занято: 0 / 4</span>
     </div>
 
     <div class="inventory-grid" id="inventoryGrid"></div>
@@ -532,6 +543,92 @@
 
   </div>
 
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+  <div class="panel">
+    <div class="panel-title"><h2>ПРОФИЛЬ</h2><span class="badge">СТАТИСТИКА АККАУНТА</span></div>
+    <div class="profile-head">
+      <div><div class="profile-avatar">₿</div></div>
+      <div><h1 id="profileUsername">—</h1><p class="muted">Аккаунт создан: <b id="profileCreatedAt">—</b></p><p class="muted">Время в игре: <b id="profilePlaytime">0 минут</b></p></div>
+    </div>
+    <div class="profile-theme">
+      <span>Оформление профиля</span>
+      <div class="theme-buttons">
+        <button class="theme-dot theme-cyan" data-theme="cyan" title="Бирюзовый"></button>
+        <button class="theme-dot theme-purple" data-theme="purple" title="Фиолетовый"></button>
+        <button class="theme-dot theme-red" data-theme="red" title="Красный"></button>
+        <button class="theme-dot theme-white" data-theme="white" title="Белый"></button>
+        <button class="theme-dot theme-pink" data-theme="pink" title="Розовый"></button>
+      </div>
+    </div>
+    <div class="profile-grid" id="profileGrid"></div>
+    <div class="prestige-requirements" id="prestigeRequirements"></div>
+  </div>
+</section>
+
+<!-- EXCHANGE -->
+<section class="page" id="exchange">
+  <div class="panel">
+    <div class="panel-title"><h2>ОБМЕН GAME BTC ↔ RUB</h2><span class="badge">ВЫМЫШЛЕННЫЙ КУРС</span></div>
+    <div class="exchange-rate-card">
+      <div><small>ТЕКУЩИЙ КУРС</small><strong id="exchangeRateValue">100 000 ₽</strong></div>
+      <div><small>ПРЕДЫДУЩИЙ</small><b id="exchangePrevRate">100 000 ₽</b></div>
+      <div><small>ИЗМЕНЕНИЕ</small><b id="exchangeChange">0.00%</b></div>
+      <div><small>НАПРАВЛЕНИЕ</small><b id="exchangeDirection">—</b></div>
+    </div>
+    <div class="exchange-grid">
+      <div class="exchange-card">
+        <h3>Конвертер Game BTC</h3>
+        <label>Количество BTC</label>
+        <input id="btcToRubInput" type="number" min="0" step="0.000001" value="0.1">
+        <div class="conversion-result" id="btcToRubResult">≈ 10 000 ₽</div>
+        <button class="btn primary" id="exchangeAllToRub">ОБМЕНЯТЬ BTC → RUB</button>
+      </div>
+      <div class="exchange-card">
+        <h3>Обмен RUB → BTC</h3>
+        <label>Количество игровых рублей</label>
+        <input id="rubToBtcInput" type="number" min="0" step="1" value="1000">
+        <div class="conversion-result" id="rubToBtcResult">≈ 0.010000 BTC</div>
+        <button class="btn" id="exchangeAllToBtc">ОБМЕНЯТЬ RUB → BTC</button>
+      </div>
+    </div>
+    <div class="balance-strip"><span>Game BTC: <b id="exchangeBTCBalance">0.000000</b></span><span>Игровые RUB: <b id="exchangeRUBBalance">0 ₽</b></span></div>
+    <canvas id="exchangeChart"></canvas>
+    <p class="muted exchange-note">Курс полностью вымышленный. Он периодически изменяется вверх или вниз и сохраняется отдельно для аккаунта.</p>
+  </div>
+</section>
+
+<!-- UPGRADER -->
+<section class="page" id="upgrader">
+  <div class="panel upgrader-panel">
+    <div class="panel-title"><h2>BTC UPGRADER</h2><span class="badge">ИГРОВОЙ РИСК / НАГРАДА</span></div>
+    <div class="warning">ТОЛЬКО ВЫМЫШЛЕННЫЕ GAME BTC — БЕЗ РЕАЛЬНЫХ ДЕНЕГ</div>
+    <div class="upgrader-layout">
+      <div class="upgrade-side">
+        <small>СТАВКА</small>
+        <strong id="upgraderBalance">0.000000 BTC</strong>
+        <label>Количество BTC</label>
+        <input id="upgraderBet" type="number" min="0" step="0.000001" value="0.010000">
+        <div class="quick-bets"><button class="btn" data-upbet="min">МИН</button><button class="btn" data-upbet="0.001">0.001</button><button class="btn" data-upbet="0.01">0.01</button><button class="btn" data-upbet="0.1">0.1</button><button class="btn" data-upbet="half">/2</button><button class="btn" data-upbet="double">X2</button><button class="btn" data-upbet="max">МАКС.</button></div>
+        <div class="upgrader-stat">При проигрыше: <b id="upgraderLoss">0 BTC</b></div>
+      </div>
+      <div class="upgrade-core">
+        <div class="upgrade-ring" id="upgradeRing"><div class="upgrade-pointer"></div><div class="upgrade-ring-inner"><strong id="upgradeChance">0%</strong><span>ШАНС</span></div></div>
+        <button class="upgrade-main-btn" id="upgraderPlay">АПГРЕЙД</button>
+        <div class="upgrader-result" id="upgraderResult">Выберите ставку и цель.</div>
+      </div>
+      <div class="upgrade-side">
+        <small>ЦЕЛЕВАЯ НАГРАДА</small>
+        <label>Сумма выигрыша</label>
+        <input id="upgraderTarget" type="number" min="0" step="0.000001" value="0.020000">
+        <div class="upgrader-stat">Множитель: <b id="upgraderMultiplier">2.00×</b></div>
+        <div class="upgrader-stat">Чистая прибыль: <b id="upgraderProfit">0.010000 BTC</b></div>
+        <div class="risk-line"><span>Риск</span><b id="upgraderRisk">—</b></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- SETTINGS -->
